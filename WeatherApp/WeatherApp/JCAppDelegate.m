@@ -7,15 +7,25 @@
 //
 
 #import "JCAppDelegate.h"
+#import "JCViewController.h"
+#import <TSMessage.h>
+
 
 @implementation JCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    
+    // setting JCViewController as the root view controller
+    self.window.rootViewController = [[JCViewController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // setting the default view controller to display TSMessages
+    // (this overrides needs to indicate which controller to use to display messages)
+    [TSMessage setDefaultViewController: self.window.rootViewController];
+
     return YES;
 }
 
