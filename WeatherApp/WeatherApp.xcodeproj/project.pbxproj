@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		624A324C18DC75A5003EFB0E /* JCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A324B18DC75A5003EFB0E /* JCClient.m */; };
+		624A324F18DC75BE003EFB0E /* JCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A324E18DC75BE003EFB0E /* JCManager.m */; };
+		624A325218DC7643003EFB0E /* JCCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A325118DC7643003EFB0E /* JCCondition.m */; };
+		624A325518DC765E003EFB0E /* JCDailyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A325418DC765E003EFB0E /* JCDailyForecast.m */; };
 		62B5CBCB18DA5ABE00822C42 /* JCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B5CBCA18DA5ABE00822C42 /* JCViewController.m */; };
 		62B5CBE818DA5D9400822C42 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 62B5CBCD18DA5D9400822C42 /* bg.png */; };
 		62B5CBE918DA5D9400822C42 /* bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62B5CBCE18DA5D9400822C42 /* bg@2x.png */; };
@@ -61,6 +65,14 @@
 
 /* Begin PBXFileReference section */
 		461C185C63BC4309A4345732 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		624A324A18DC75A5003EFB0E /* JCClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCClient.h; sourceTree = "<group>"; };
+		624A324B18DC75A5003EFB0E /* JCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCClient.m; sourceTree = "<group>"; };
+		624A324D18DC75BE003EFB0E /* JCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCManager.h; sourceTree = "<group>"; };
+		624A324E18DC75BE003EFB0E /* JCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCManager.m; sourceTree = "<group>"; };
+		624A325018DC7643003EFB0E /* JCCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCondition.h; sourceTree = "<group>"; };
+		624A325118DC7643003EFB0E /* JCCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCondition.m; sourceTree = "<group>"; };
+		624A325318DC765E003EFB0E /* JCDailyForecast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDailyForecast.h; sourceTree = "<group>"; };
+		624A325418DC765E003EFB0E /* JCDailyForecast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDailyForecast.m; sourceTree = "<group>"; };
 		62B5CBC918DA5ABE00822C42 /* JCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCViewController.h; sourceTree = "<group>"; };
 		62B5CBCA18DA5ABE00822C42 /* JCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCViewController.m; sourceTree = "<group>"; };
 		62B5CBCD18DA5D9400822C42 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -136,6 +148,14 @@
 		62B5CBC618DA5A1F00822C42 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				624A324A18DC75A5003EFB0E /* JCClient.h */,
+				624A324B18DC75A5003EFB0E /* JCClient.m */,
+				624A324D18DC75BE003EFB0E /* JCManager.h */,
+				624A324E18DC75BE003EFB0E /* JCManager.m */,
+				624A325018DC7643003EFB0E /* JCCondition.h */,
+				624A325118DC7643003EFB0E /* JCCondition.m */,
+				624A325318DC765E003EFB0E /* JCDailyForecast.h */,
+				624A325418DC765E003EFB0E /* JCDailyForecast.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -232,7 +252,6 @@
 		62E645A418DA55CF00F68333 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				62B5CBCC18DA5D9400822C42 /* Images */,
 				62B5CBC818DA5A3000822C42 /* Controller */,
 				62B5CBC718DA5A2500822C42 /* View */,
 				62B5CBC618DA5A1F00822C42 /* Model */,
@@ -247,6 +266,7 @@
 		62E645A518DA55CF00F68333 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				62B5CBCC18DA5D9400822C42 /* Images */,
 				62E645A618DA55CF00F68333 /* WeatherApp-Info.plist */,
 				62E645A718DA55CF00F68333 /* InfoPlist.strings */,
 				62E645AA18DA55CF00F68333 /* main.m */,
@@ -430,8 +450,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				624A325218DC7643003EFB0E /* JCCondition.m in Sources */,
 				62E645AB18DA55CF00F68333 /* main.m in Sources */,
+				624A324C18DC75A5003EFB0E /* JCClient.m in Sources */,
+				624A325518DC765E003EFB0E /* JCDailyForecast.m in Sources */,
 				62B5CBCB18DA5ABE00822C42 /* JCViewController.m in Sources */,
+				624A324F18DC75BE003EFB0E /* JCManager.m in Sources */,
 				62E645AF18DA55CF00F68333 /* JCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
