@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@import CoreLocation;
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
+
 @interface JCClient : NSObject
+
+-(RACSignal *)fecthJSONFromURL:(NSURL *)url;
+-(RACSignal *)fecthCurrentConditionForLocation:(CLLocationCoordinate2D)coordinate;
+-(RACSignal *)fecthHourlyForecastForLocation:(CLLocationCoordinate2D)coordinate;
+-(RACSignal *)fecthDailyForecastForLocation:(CLLocationCoordinate2D)coordinate;
 
 @end

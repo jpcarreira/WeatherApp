@@ -10,11 +10,11 @@
 
 @implementation JCDailyForecast
 
-
-// overriding JSONKeyPathsByPropertyKey because the current conditions is stored in the key temp_max
-// while in the daily forecast is stored as max
 +(NSDictionary *)JSONKeyPathsByPropertyKey
 {
+    // overriding JSONKeyPathsByPropertyKey because the current conditions is stored in the key temp_max
+    // while in the daily forecast is stored as max
+    
     /*
      // current conditions
      "main": 
