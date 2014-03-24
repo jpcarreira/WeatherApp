@@ -18,9 +18,27 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat screenHeight;
 
+// date formatters
+// (they're expensive to alloc so we'll do it in the init)
+@property (nonatomic, strong) NSDateFormatter *hourlyFormatter;
+@property (nonatomic, strong) NSDateFormatter *dailyFormatter;
+
 @end
 
 @implementation JCViewController
+
+-(id)init
+{
+    if(self = [super init])
+    {
+        _hourlyFormatter = [[NSDateFormatter alloc] init];
+        _hourlyFormatter.dateFormat = @"h a";
+        
+        _dailyFormatter = [[NSDateFormatter alloc] init];
+        _dailyFormatter.dateFormat = @"EEEE";
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -170,6 +188,19 @@
                         }]
                         // delivering to main thread as we're working on the UI
                         deliverOn:RACScheduler.mainThreadScheduler];
+    
+    // reloading the table data
+    [[RACObserve([JCManager sharedManager], hourlyForecast)
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(NSArray *newForecast) {
+         [self.tableView reloadData];
+     }];
+    
+    [[RACObserve([JCManager sharedManager], dailyForecast)
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(NSArray *newForecast) {
+         [self.tableView reloadData];
+     }];
 }
 
 
@@ -209,8 +240,16 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // TODO: return count of forecast
-    return 0;
+    // the first section corresponds to hourly forecasts (6 hourly, plus 1 for the header)
+    if(section == 0)
+    {
+        return MIN([[JCManager sharedManager].hourlyForecast count], 6) + 1;
+    }
+    
+    // the next section is the daily forecasts (6 days, plus 1 for the header)
+    return MIN([[JCManager sharedManager].dailyForecast count], 6) + 1;
+    
+    // note that we're using standard cells for headers
 }
 
 
@@ -232,9 +271,72 @@
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.textColor = [UIColor whiteColor];
     
-    // TODO: setup cell
+    // setting up the hourly cells
+    if(indexPath.section == 0)
+    {
+        // first row is the header
+        if(indexPath.row == 0)
+        {
+            [self configureHeaderCell:cell withTitle:@"Hourly Forecast"];
+        }
+        // the other rows are the forecast so we get the forecast and configure the cell accordingly
+        else
+        {
+            JCCondition *weather = [JCManager sharedManager].hourlyForecast[indexPath.row - 1];
+            [self configureHourlyCell:cell weather:weather];
+        }
+    }
     
+    // setting up the daily forecasts
+    else if(indexPath.section == 1)
+    {
+        if(indexPath.row == 0)
+        {
+            [self configureHeaderCell:cell withTitle:@"Daily Forecast"];
+        }
+        else
+        {
+            JCCondition *weather = [JCManager sharedManager].dailyForecast[indexPath.row - 1];
+            [self configureDailyCell:cell weather:weather];
+        }
+    }
     return cell;
+}
+
+
+// the header is commom to both hourly and daily forecasts
+-(void)configureHeaderCell:(UITableViewCell *)cell withTitle:(NSString *)title
+{
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+    cell.textLabel.text = title;
+    cell.detailTextLabel.text = @"";
+    cell.imageView.image = nil;
+}
+
+
+// hourly forecasts
+- (void)configureHourlyCell:(UITableViewCell *)cell weather:(JCCondition *)weather
+{
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+    cell.textLabel.text = [self.hourlyFormatter stringFromDate:weather.date];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f°",weather.temperature.floatValue];
+    cell.imageView.image = [UIImage imageNamed:[weather imageName]];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+}
+
+
+// daily forecasts
+- (void)configureDailyCell:(UITableViewCell *)cell weather:(JCCondition *)weather
+{
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+    cell.textLabel.text = [self.dailyFormatter stringFromDate:weather.date];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f° / %.0f°",
+                                 weather.tempHigh.floatValue,
+                                 weather.tempLow.floatValue];
+    cell.imageView.image = [UIImage imageNamed:[weather imageName]];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 
