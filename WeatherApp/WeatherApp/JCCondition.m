@@ -159,4 +159,14 @@
 }
 
 
+// transforms fahrenheit degrees to celsius
++(NSValueTransformer *)temperatureJSONTransformer
+{
+    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSNumber *num){
+        return @((num.floatValue - 32.0) / 1.8f);
+    }reverseBlock:^(NSNumber *temp){
+        return @((temp.floatValue * 1.8) + 32.0);
+    }];
+}
+
 @end
