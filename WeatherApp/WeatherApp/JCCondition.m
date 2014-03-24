@@ -169,4 +169,16 @@
     }];
 }
 
+
++(NSValueTransformer *)tempHighJSONTransformer
+{
+    return [self temperatureJSONTransformer];
+}
+
+
++(NSValueTransformer *)tempLowJSONTransformer
+{
+    return [self temperatureJSONTransformer];
+}
+
 @end

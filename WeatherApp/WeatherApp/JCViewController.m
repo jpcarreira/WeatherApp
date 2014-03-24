@@ -166,7 +166,7 @@
                         // reducing the values to a single value
                         // (the parameter order matches the order of the signals
                         reduce:^(NSNumber *hi, NSNumber *low){
-                            return [NSString stringWithFormat:@"%.0f / %.0f", hi.floatValue, low.floatValue];
+                            return [NSString stringWithFormat:@"%.0fº / %.0fº", hi.floatValue, low.floatValue];
                         }]
                         // delivering to main thread as we're working on the UI
                         deliverOn:RACScheduler.mainThreadScheduler];
