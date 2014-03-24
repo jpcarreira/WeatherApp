@@ -155,6 +155,21 @@
          // uses the mapped image file name to create an image and sets it as the icon for the view
          iconView.image = [UIImage imageNamed:[newCondition imageName]];
      }];
+    
+    // binding high and low temperature values to hiloLabel's text property
+    RAC(hiloLabel, text) = [[RACSignal combineLatest:@[
+                        // observe the high and low temperature values of the current condition key
+                        // these values are combined and use the latest values of both
+                        // the signal fires when either key changes
+                        RACObserve([JCManager sharedManager], currentCondition.tempHigh),
+                        RACObserve([JCManager sharedManager], currentCondition.tempLow)]
+                        // reducing the values to a single value
+                        // (the parameter order matches the order of the signals
+                        reduce:^(NSNumber *hi, NSNumber *low){
+                            return [NSString stringWithFormat:@"%.0f / %.0f", hi.floatValue, low.floatValue];
+                        }]
+                        // delivering to main thread as we're working on the UI
+                        deliverOn:RACScheduler.mainThreadScheduler];
 }
 
 
