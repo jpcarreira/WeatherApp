@@ -8,6 +8,7 @@
 
 #import "JCViewController.h"
 #import <LBBlurredImage/UIImageView+LBBlurredImage.h>
+#import "JCManager.h"
 
 
 @interface JCViewController ()
@@ -135,6 +136,25 @@
     iconView.backgroundColor = [UIColor clearColor];
     iconView.image = [UIImage imageNamed:@"weather-moon"];
     [header addSubview:iconView];
+    
+    // asking the manager to begin finding the current location of the device
+    [[JCManager sharedManager] findCurrentLocation];
+    
+    // observing the currentCondition key on the manager singleton
+    [[RACObserve([JCManager sharedManager], currentCondition)
+      // delivering the changes on the main thread since we're updating the UI
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(JCCondition *newCondition){
+         // updating the labels with weather data
+         // note that we're using newCondition for the text and not the singleton
+         // (the subscriber parameter is guaranteed to be the new value)
+         temperatureLabel.text = [NSString stringWithFormat:@"%.0fº", newCondition.temperature.floatValue];
+         conditionsLabel.text = [newCondition.condition capitalizedString];
+         cityLabel.text = [newCondition.locationName capitalizedString];
+         
+         // uses the mapped image file name to create an image and sets it as the icon for the view
+         iconView.image = [UIImage imageNamed:[newCondition imageName]];
+     }];
 }
 
 
