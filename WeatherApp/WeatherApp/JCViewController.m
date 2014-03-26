@@ -300,6 +300,10 @@
             [self configureDailyCell:cell weather:weather];
         }
     }
+    
+    // disabling selection
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
@@ -342,10 +346,29 @@
 
 #pragma mark - UITableViewDelegate
 
+// making the table view occupy the entire screen
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: Determine cell height based on screen
-    return 44;
+    NSInteger cellCount = [self tableView:tableView numberOfRowsInSection:indexPath.section];
+    return self.screenHeight / (CGFloat)cellCount;
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+// enabling a blur effect
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // getting the height of the scroll view and the content offset
+    // capping the offset at 0 so an attempt to scroll past the start of the table won't affect blurring
+    CGFloat height = scrollView.bounds.size.height;
+    CGFloat position = MAX(scrollView.contentOffset.y, 0.0);
+    
+    // dividing the offset by the height with a maximum of 1 so that the offset is capped at 1
+    CGFloat percent = MIN(position / height, 1.0);
+    
+    // assigning the result to the blur image's alpha property to change how much of the blurred image we see as we scroll
+    self.blurredImageView.alpha = percent;
 }
 
 @end
