@@ -80,8 +80,8 @@
     self.tableView.dataSource = self;
     self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.2];
     self.tableView.pagingEnabled = YES;
+    self.tableView.bounces = NO;
     [self.view addSubview:self.tableView];
-    
     
     // SETTING UP LAYOUT FRAMES AND MARGINS
     
